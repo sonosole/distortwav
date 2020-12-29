@@ -1,18 +1,17 @@
 function clipwav(x, a)
-    s = (0.4 + 0.1 * rand(1,1)[1]);
+    s = (0.4 + 0.1 * rand());
     c = (s + 1) / 2;
     k = (1 - s) / (s - c)^2;
-    x /= maximum(abs.(x));
-    x *= a;
-    for i = 1:length(x)
-        if c < x[i]
-            x[i] = 1.0;
-        elseif s < x[i] <= c
-            x[i] = -k * ( x[i] - c )^2 + 1;
-        elseif -c <= x[i] < -s
-            x[i] = k * ( x[i] + c )^2 - 1;
-        elseif x[i] < -c
-            x[i] = -1.0;
+    x *= a/maximum(abs.(x));
+    for t = 1:length(x)
+        if c < x[t]
+            x[t] = 1.0;
+        elseif s < x[t] <= c
+            x[t] = -k * ( x[t] - c )^2 + 1;
+        elseif -c <= x[t] < -s
+            x[t] =  k * ( x[t] + c )^2 - 1;
+        elseif x[t] < -c
+            x[t] = -1.0;
         end
     end
     return x
